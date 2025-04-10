@@ -37,6 +37,7 @@ const options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
+console.log(swaggerSpec); // Pour vérifier la structure générée
 // Fichiers contenant les annotations Swagger// Fichiers contenant les annotations Swagger
 module.exports = (app) => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
