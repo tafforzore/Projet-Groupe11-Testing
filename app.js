@@ -4,10 +4,10 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
-// const vehicleRoutes = require('./routes/vehicle.routes');
+const setupSwagger = require('./src/config/swagger');
 require('dotenv').config();
-const setupSwagger = require('./swagger');
 
+const vehicleRoutes = require('./src/routes/vehicle.routes');
 
 const app = express();
 
@@ -19,13 +19,10 @@ app.use(morgan('combined'));
 setupSwagger(app);
 
 // Routes
-// app.use('/vehicles', vehicleRoutes);
+app.use('/vehicles', vehicleRoutes);
 
 // Connexion à MongoDB
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGO_URL)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
 
