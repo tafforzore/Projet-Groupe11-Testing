@@ -42,7 +42,7 @@ jobs:
       env:
         ONRENDER_API_KEY: ${{ secrets.ONRENDER_API_KEY }}
       run: |
-        curl -X POST https://api.onrender.com/deploys \
+        curl -X POST ${{ deploy_url }} \
           -H "Authorization: Bearer $ONRENDER_API_KEY" \
           -F "app=Projet-Groupe11-Testing" \
           -F "branch=main" \
