@@ -4,10 +4,10 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
-const setupSwagger = require('./src/config/swagger');
+const setupSwagger = require('./config/swagger');
 require('dotenv').config();
 
-const vehicleRoutes = require('./src/routes/vehicle.routes');
+const vehicleRoutes = require('./routes/vehicle.routes');
 
 const app = express();
 
