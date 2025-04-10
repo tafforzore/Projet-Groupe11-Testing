@@ -1,7 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: Node.js CI/CD
 
 on:
   push:
@@ -17,7 +14,6 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v4
@@ -33,7 +29,25 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - run: npm ci
     - run: npm run build --if-present
+
+    # Run tests if applicable
+    - run: npm test
+
+    # Build and start containers using docker-compose
     - run: docker-compose build
     - run: docker-compose up -d
+
+    # Deploy to OnRender (add your OnRender-specific deploy step)
+    - name: Deploy to OnRender
+      env:
+        ONRENDER_API_KEY: ${{ secrets.ONRENDER_API_KEY }}
+      run: |
+        curl -X POST https://api.onrender.com/deploys \
+          -H "Authorization: Bearer $ONRENDER_API_KEY" \
+          -F "app=Projet-Groupe11-Testing" \
+          -F "branch=main" \
+          -F "build_output_path=./build" \
+          -F "docker=true"
