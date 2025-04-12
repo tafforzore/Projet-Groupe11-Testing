@@ -37,14 +37,19 @@ jobs:
     - run: docker-compose build
     - run: docker-compose up -d
 
+    # Verify Docker containers are running
+    - name: Check Docker containers
+      run: |
+        docker ps
+
     # Deploy to OnRender (add your OnRender-specific deploy step)
-    # - name: Deploy to OnRender
-    #   env:
-    #     ONRENDER_API_KEY: ${{ secrets.ONRENDER_API_KEY }}
-    #   run: |
-    #     curl -X POST $DEPLOY_URL \
-    #       -H "Authorization: Bearer $ONRENDER_API_KEY" \
-    #       -F "app=Projet-Groupe11-Testing" \
-    #       -F "branch=main" \
-    #       -F "build_output_path=./build" \
-    #       -F "docker=true"
+    - name: Deploy to OnRender
+      env:
+        ONRENDER_API_KEY: ${{ secrets.ONRENDER_API_KEY }}
+      run: |
+        curl -X POST $DEPLOY_URL \
+          -H "Authorization: Bearer $ONRENDER_API_KEY" \
+          -F "app=Projet-Groupe11-Testing" \
+          -F "branch=main" \
+          -F "build_output_path=./build" \
+          -F "docker=true"
