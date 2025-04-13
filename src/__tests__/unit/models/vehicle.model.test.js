@@ -8,7 +8,8 @@ describe('Vehicle Model', () => {
     year: 2023,
     type: 'car',
     pricePerDay: 50,
-    registrationNumber: 'AB-123-CD'
+    registrationNumber: 'AB-123-CD',
+    location: 'Paris'
   };
 
   it('devrait valider un véhicule correct', () => {
