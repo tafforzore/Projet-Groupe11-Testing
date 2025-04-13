@@ -9,6 +9,7 @@ module.exports = {
       '!src/models/*.js',
       '!src/tests/**'
     ],
+    setupFilesAfterEnv: ['./jest.setup.js'],
     coverageThreshold: {
       global: {
         branches: 80,
