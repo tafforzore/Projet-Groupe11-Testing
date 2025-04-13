@@ -8,7 +8,10 @@
     "dev": "nodemon server.js",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "sonar": "sonar-scanner"
+    "sonar": "sonar-scanner",
+    "test:integration": "jest --testPathPattern=integration",
+    "test:api": "jest --testPathPattern=api",
+    "test:cov": "jest --ci --coverage"
   },
   "keywords": [],
   "author": "",
