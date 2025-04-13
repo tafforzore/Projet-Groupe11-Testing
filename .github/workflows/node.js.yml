@@ -31,19 +31,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install libssl1.1 (for mongodb-memory-server)
-      run: |
-        sudo apt-get update
-        wget http://old-releases.ubuntu.com/ubuntu/pool/main/o/openssl1.1/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
-        sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
-
-
-    - name: Install libssl1.1 (for MongoMemoryServer if needed)
-      run: |
-        sudo apt-get update
-        wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl1.1/libssl1.1_1.1.1f-1ubuntu2.22_amd64.deb
-        sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.22_amd64.deb || true
-
     - name: Install Docker Compose
       run: |
         sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -63,6 +50,7 @@ jobs:
       env:
         MONGO_URL: mongodb://admin:password@localhost:27017/test?authSource=admin
         NODE_ENV: test
+        MONGOMS_DISABLE_DOWNLOAD: true
       run: npm test -- --ci --coverage
 
     - name: Build container
