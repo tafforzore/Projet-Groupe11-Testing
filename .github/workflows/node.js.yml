@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -32,6 +31,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install libssl1.1 (for MongoMemoryServer if needed)
+      run: |
+        sudo apt-get update
+        wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl1.1/libssl1.1_1.1.1f-1ubuntu2.22_amd64.deb
+        sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.22_amd64.deb || true
+
     - name: Install Docker Compose
       run: |
         sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -44,16 +49,13 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
-    - run: npm install
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm install mongodb-memory-server@latest --save-dev
 
     - name: Run tests
       env:
         MONGO_URL: mongodb://admin:password@localhost:27017/test?authSource=admin
         NODE_ENV: test
-      
       run: npm test -- --ci --coverage
 
     - name: Build container
