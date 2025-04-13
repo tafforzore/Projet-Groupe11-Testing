@@ -1,6 +1,8 @@
 const request = require('supertest');
 const app = require('../../../app'); // Assurez-vous que le chemin est correct
 const Vehicle = require('../../../models/vehicle.model');
+const mongoose = require('mongoose');
+
 
 describe('Vehicle Controller', () => {
   let testVehicle;

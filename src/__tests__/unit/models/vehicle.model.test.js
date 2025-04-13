@@ -1,5 +1,6 @@
 const Vehicle = require('../../../models/vehicle.model');
 // const { validateVehicle } = require('../vehicle.validator');
+const mongoose = require('mongoose');
 
 describe('Vehicle Model', () => {
   const validVehicle = {
