@@ -47,12 +47,13 @@ jobs:
     - run: npm install
     - run: npm ci
     - run: npm run build --if-present
+    - run: npm install mongodb-memory-server@latest --save-dev
 
     - name: Run tests
       env:
         MONGO_URL: mongodb://admin:password@localhost:27017/test?authSource=admin
         NODE_ENV: test
-      run: npm install mongodb-memory-server@latest --save-dev
+      
       run: npm test -- --ci --coverage
 
     - name: Build container
