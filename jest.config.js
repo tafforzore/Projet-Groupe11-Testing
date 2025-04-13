@@ -1,5 +1,5 @@
 module.exports = {
-    preset: '@shelf/jest-mongodb',
+    preset: 'undefined',
     coverageDirectory: './coverage',
     testEnvironment: 'node',
     collectCoverageFrom: [
