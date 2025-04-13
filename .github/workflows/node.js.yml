@@ -52,6 +52,7 @@ jobs:
       env:
         MONGO_URL: mongodb://admin:password@localhost:27017/test?authSource=admin
         NODE_ENV: test
+      run: npm install mongodb-memory-server@latest --save-dev
       run: npm test -- --ci --coverage
 
     - name: Build container
