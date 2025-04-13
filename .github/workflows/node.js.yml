@@ -41,3 +41,68 @@ jobs:
         MONGO_URL: mongodb://admin:password@localhost:27017/test?authSource=admin
         NODE_ENV: test
       run: npm test -- --ci --coverage
+
+
+
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    services:
+      mongo:
+        image: mongo:5.0
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: password
+        options: >-
+          --health-cmd "echo 'db.runCommand(\"ping\").ok' | mongosh localhost:27017/test --quiet"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        docker-compose --version
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+
+
+    - name: Run tests
+      env:
+        MONGO_URL: mongodb://admin:password@localhost:27017/test?authSource=admin
+        NODE_ENV: test
+      run: npm test -- --ci --coverage
+
+    - name: Deploy container
+      run: docker-compose build
+      run: docker-compose up -d
