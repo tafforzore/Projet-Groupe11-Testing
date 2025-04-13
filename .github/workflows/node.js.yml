@@ -34,8 +34,8 @@ jobs:
     - name: Install libssl1.1 (for mongodb-memory-server)
       run: |
         sudo apt-get update
-        wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.1/libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
-        sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
+        wget http://old-releases.ubuntu.com/ubuntu/pool/main/o/openssl1.1/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+        sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb
 
 
     - name: Install libssl1.1 (for MongoMemoryServer if needed)
