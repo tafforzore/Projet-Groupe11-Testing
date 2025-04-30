@@ -52,7 +52,7 @@ jobs:
         MONGO_URL: mongodb://admin:password@localhost:27017/test?authSource=admin
         NODE_ENV: test
         MONGOMS_DISABLE_DOWNLOAD: true
-      # run: npm test -- --ci --coverage
+      run: ls
 
     - name: Build container
       run: docker-compose build
