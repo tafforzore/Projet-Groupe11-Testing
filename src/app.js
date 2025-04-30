@@ -8,7 +8,7 @@ const setupSwagger = require('./config/swagger');
 require('dotenv').config();
 
 const vehicleRoutes = require('./routes/vehicle.routes');
-
+const authRoutes = require('./routes/auth.routes');
 const app = express();
 
 // Middleware
@@ -20,6 +20,7 @@ setupSwagger(app);
 
 // Routes
 app.use('/vehicles', vehicleRoutes);
+app.use('/auth', authRoutes);
 
 // Connexion à MongoDB
 mongoose.connect(process.env.MONGO_URL)

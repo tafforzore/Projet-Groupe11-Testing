@@ -47,6 +47,7 @@ describe('Vehicle Controller', () => {
         year: 2024,
         type: 'van',
         pricePerDay: 75,
+        location: 'Paris',
         registrationNumber: 'NEW-456'
       };
 
