@@ -64,3 +64,16 @@ exports.deleteVehicle = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Get vehicle by registration number
+exports.getVehicleByRegistration = async (req, res) => {
+  try {
+    const vehicle = await Vehicle.findOne({ registrationNumber: req.params.registration });
+    if (!vehicle) {
+      return res.status(404).json({ message: 'Véhicule non trouvé avec ce numéro d\'enregistrement' });
+    }
+    res.status(200).json(vehicle);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

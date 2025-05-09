@@ -118,4 +118,31 @@ router.put('/:id', vehicleController.updateVehicle);
  */
 router.delete('/:id', vehicleController.deleteVehicle);
 
+/**
+ * @swagger
+ * /vehicles/registration/{registration}:
+ *   get:
+ *     summary: Récupère un véhicule par son numéro d'enregistrement
+ *     tags: [Vehicles]
+ *     parameters:
+ *       - in: path
+ *         name: registration
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Numéro d'immatriculation du véhicule
+ *     responses:
+ *       200:
+ *         description: Véhicule trouvé
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Vehicle'
+ *       404:
+ *         description: Aucun véhicule trouvé avec ce numéro d'enregistrement
+ *       500:
+ *         description: Erreur serveur
+ */
+router.get('/registration/:registration', vehicleController.getVehicleByRegistration);
+
 module.exports = router;
