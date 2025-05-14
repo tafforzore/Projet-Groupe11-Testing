@@ -178,4 +178,40 @@ router.get('/registration/:registration', vehicleController.getVehicleByRegistra
  */
 router.get('/max-price/:maxPrice', vehicleController.getVehiclesByMaxPrice);
 
+/**
+ * @swagger
+ * tags:
+ *   name: Health
+ *   description: Vérification de l'état de l'API
+ */
+
+/**
+ * @swagger
+ * /vehicles/health:
+ *   get:
+ *     summary: Vérifie l'état du service Vehicle
+ *     tags: [Vehicles]
+ *     responses:
+ *       200:
+ *         description: Service opérationnel
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: UP
+ *                 timestamp:
+ *                   type: string
+ *                   format: date-time
+ *                 service:
+ *                   type: string
+ *                 version:
+ *                   type: string
+ *                 database:
+ *                   type: string
+ */
+router.get('/health', vehicleController.getHealthStatus);
+
 module.exports = router;

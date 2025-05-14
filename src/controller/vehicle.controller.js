@@ -100,3 +100,13 @@ exports.getVehiclesByMaxPrice = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.getHealthStatus = (req, res) => {
+  res.status(200).json({
+    status: 'UP',
+    timestamp: new Date().toISOString(),
+    service: 'Vehicle API',
+    version: '1.0.0',
+    database: 'Connected' // Vous pourriez ajouter un check de connexion DB plus tard
+  });
+};
