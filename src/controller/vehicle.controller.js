@@ -77,3 +77,26 @@ exports.getVehicleByRegistration = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Get all vehicles with rental price less than or equal to maxPrice
+exports.getVehiclesByMaxPrice = async (req, res) => {
+  try {
+    const maxPrice = parseFloat(req.params.maxPrice);
+    
+    if (isNaN(maxPrice) || maxPrice < 0) {
+      return res.status(400).json({ message: 'Le prix maximum doit être un nombre positif' });
+    }
+
+    const vehicles = await Vehicle.find({ rentalPrice: { $lte: maxPrice } });
+    
+    if (vehicles.length === 0) {
+      return res.status(404).json({ 
+        message: `Aucun véhicule trouvé avec un prix de location inférieur ou égal à ${maxPrice}` 
+      });
+    }
+    
+    res.status(200).json(vehicles);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

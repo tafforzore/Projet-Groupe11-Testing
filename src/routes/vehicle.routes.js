@@ -145,4 +145,37 @@ router.delete('/:id', vehicleController.deleteVehicle);
  */
 router.get('/registration/:registration', vehicleController.getVehicleByRegistration);
 
+/**
+ * @swagger
+ * /vehicles/max-price/{maxPrice}:
+ *   get:
+ *     summary: Récupère les véhicules avec un prix de location inférieur ou égal au prix maximum
+ *     tags: [Vehicles]
+ *     parameters:
+ *       - in: path
+ *         name: maxPrice
+ *         required: true
+ *         schema:
+ *           type: number
+ *           format: float
+ *           minimum: 0
+ *         description: Prix maximum de location
+ *     responses:
+ *       200:
+ *         description: Liste des véhicules filtrés par prix
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Vehicle'
+ *       400:
+ *         description: Prix maximum invalide (doit être un nombre positif)
+ *       404:
+ *         description: Aucun véhicule trouvé dans la fourchette de prix
+ *       500:
+ *         description: Erreur serveur
+ */
+router.get('/max-price/:maxPrice', vehicleController.getVehiclesByMaxPrice);
+
 module.exports = router;
