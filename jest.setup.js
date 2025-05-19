@@ -1,4 +1,7 @@
-process.env.MONGO_URL = 'mongodb://localhost:27017/vehicle-test';
+require('dotenv').config();
+
+
+process.env.MONGO_URL = process.env.MONGO_URL;
 process.env.NODE_ENV = 'test';
 
 const mongoose = require('mongoose');

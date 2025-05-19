@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const vehicleController = require('./../controller/vehicle.controller');
+const authMiddleware = require('../middlewares/auth.middleware'); 
 
 /**
  * @swagger
@@ -26,7 +27,7 @@ const vehicleController = require('./../controller/vehicle.controller');
  *               items:
  *                 $ref: '#/components/schemas/Vehicle'
  */
-router.get('/', vehicleController.getAllVehicles);
+router.get('/', authMiddleware.protect, vehicleController.getAllVehicles);
 
 /**
  * @swagger
@@ -50,7 +51,7 @@ router.get('/', vehicleController.getAllVehicles);
  *       404:
  *         description: Véhicule non trouvé
  */
-router.get('/:id', vehicleController.getVehicleById);
+router.get('/:id', authMiddleware.protect, vehicleController.getVehicleById);
 
 /**
  * @swagger
@@ -70,7 +71,7 @@ router.get('/:id', vehicleController.getVehicleById);
  *       400:
  *         description: Données invalides
  */
-router.post('/', vehicleController.createVehicle);
+router.post('/', authMiddleware.protect, vehicleController.createVehicle);
 
 /**
  * @swagger
@@ -96,7 +97,7 @@ router.post('/', vehicleController.createVehicle);
  *       404:
  *         description: Véhicule non trouvé
  */
-router.put('/:id', vehicleController.updateVehicle);
+router.put('/:id', authMiddleware.protect, vehicleController.updateVehicle);
 
 /**
  * @swagger
@@ -116,7 +117,7 @@ router.put('/:id', vehicleController.updateVehicle);
  *       404:
  *         description: Véhicule non trouvé
  */
-router.delete('/:id', vehicleController.deleteVehicle);
+router.delete('/:id', authMiddleware.protect, vehicleController.deleteVehicle);
 
 /**
  * @swagger
@@ -143,7 +144,7 @@ router.delete('/:id', vehicleController.deleteVehicle);
  *       500:
  *         description: Erreur serveur
  */
-router.get('/registration/:registration', vehicleController.getVehicleByRegistration);
+router.get('/registration/:registration', authMiddleware.protect, vehicleController.getVehicleByRegistration);
 
 /**
  * @swagger
@@ -176,7 +177,7 @@ router.get('/registration/:registration', vehicleController.getVehicleByRegistra
  *       500:
  *         description: Erreur serveur
  */
-router.get('/max-price/:maxPrice', vehicleController.getVehiclesByMaxPrice);
+router.get('/max-price/:maxPrice', authMiddleware.protect, vehicleController.getVehiclesByMaxPrice);
 
 /**
  * @swagger
@@ -190,7 +191,7 @@ router.get('/max-price/:maxPrice', vehicleController.getVehiclesByMaxPrice);
  * /vehicles/health:
  *   get:
  *     summary: Vérifie l'état du service Vehicle
- *     tags: [Vehicles]
+ *     tags: [Health]
  *     responses:
  *       200:
  *         description: Service opérationnel
@@ -212,6 +213,6 @@ router.get('/max-price/:maxPrice', vehicleController.getVehiclesByMaxPrice);
  *                 database:
  *                   type: string
  */
-router.get('/health', vehicleController.getHealthStatus);
+router.get('/health', authMiddleware.protect, vehicleController.getHealthStatus);
 
 module.exports = router;

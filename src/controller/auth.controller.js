@@ -3,8 +3,15 @@ const User = require('../models/user.model');
 const AppError = require('./../utils/appError');
 
 // Enregistrement
-exports.register = async (req, res, next) => {
+exports.register = async ( req, res, next) => {
   try {
+    const { username, email, password, role } = req.body;
+
+    if (!username) return res.status(400).json({ message: "Username requis" });
+    if (!email) return res.status(400).json({ message: "Email requis" });
+    if (!password) return res.status(400).json({ message: "Mot de passe requis" });
+    if (!role) return res.status(400).json({ message: "Role requis" });
+
     const user = await User.create(req.body);
     const { accessToken, refreshToken } = user.generateAuthTokens();
     
@@ -44,6 +51,7 @@ exports.login = async (req, res, next) => {
     next(err);
   }
 };
+
 
 // Rafraîchissement du token
 exports.refreshToken = async (req, res, next) => {
