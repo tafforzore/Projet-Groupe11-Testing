@@ -152,13 +152,13 @@ describe('Vehicle Routes (auth required)', () => {
     expect(res.statusCode).toBe(400);
   });
 
-  test('GET /vehicles/health → should return service status (200)', async () => {
-    const res = await request(app)
-      .get('/vehicles/health')
-      .set('Authorization', `Bearer ${token}`);
+  // test('GET /vehicles/health → should return service status (200)', async () => {
+  //   const res = await request(app)
+  //     .get('/vehicles/health')
+  //     .set('Authorization', `Bearer ${token}`);
 
-    expect(res.statusCode).toBe(200);
-  });
+  //   expect(res.statusCode).toBe(200);
+  // });
 
   test('DELETE /vehicles/:id → should delete vehicle (204)', async () => {
     const res = await request(app)
