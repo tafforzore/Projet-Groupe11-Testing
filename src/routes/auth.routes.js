@@ -159,4 +159,10 @@ router.post('/refresh-token', authController.refreshToken);
  */
 router.post('/logout', authMiddleware.protect, authController.logout);
 
+router.get('/users', authMiddleware.protect, authController.getAllUsers);
+
+router.delete('/users/:id', authMiddleware.protect, authController.getAllUsers);
+
+router.put('/users/:id', authMiddleware.protect, authController.updateUser);
+
 module.exports = router;

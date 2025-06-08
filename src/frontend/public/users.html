@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propelize - Gestion des Utilisateurs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles-users.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <a href="/vehicules">Véhicules</a>
+        <a href="/users" class="active">Utilisateurs</a>
+      </div>
+      <button id="logoutBtn">Déconnexion</button>
+    </nav>
+  </header>
+  
+  <main>
+    <div class="header-actions">
+      <h1>Gestion des utilisateurs</h1>
+      <button id="addUserBtn" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Ajouter un utilisateur
+      </button>
+    </div>
+    
+    <div class="search-filter">
+      <div>
+        <input type="text" id="searchInput" placeholder="Rechercher...">
+      </div>
+      <div>
+        <select id="roleFilter">
+          <option value="">Tous les rôles</option>
+          <option value="admin">Administrateur</option>
+          <option value="user">Utilisateur</option>
+        </select>
+      </div>
+    </div>
+    
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Nom d'utilisateur</th>
+          <th>Email</th>
+          <th>Rôle</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="userList">
+        <!-- Utilisateurs chargés dynamiquement -->
+      </tbody>
+    </table>
+  </main>
+  
+  <!-- Modal pour ajouter/modifier un utilisateur -->
+  <div class="modal" id="userModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Ajouter un utilisateur</h2>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="userForm">
+          <input type="hidden" id="userId">
+          
+          <div class="form-group">
+            <label for="username">Nom d'utilisateur *</label>
+            <input type="text" id="username" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" class="form-control" required>
+          </div>
+          
+          <div class="form-group password-toggle">
+            <label for="password">Mot de passe *</label>
+            <input type="password" id="password" class="form-control" required>
+            <button type="button" class="password-toggle-btn" id="togglePassword">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          
+          <div class="form-group">
+            <label for="role">Rôle *</label>
+            <select id="role" class="form-control" required>
+              <option value="user">Utilisateur</option>
+              <option value="admin">Administrateur</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelBtn" class="btn">Annuler</button>
+        <button id="saveUserBtn" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de confirmation de suppression -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Confirmation</h2>
+        <button class="modal-close" id="closeConfirmModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage">Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelConfirmBtn" class="btn">Annuler</button>
+        <button id="confirmBtn" class="btn btn-danger">Confirmer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/users.js"></script>
+</body>
+</html>

@@ -115,3 +115,60 @@ exports.logout = async (req, res, next) => {
       next(err);
     }
   };
+
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find().select('-password -refreshToken -passwordResetToken -passwordResetExpires');
+    res.json(users)
+    // res.status(200).json({
+    //   status: 'success',
+    //   data: {
+    //     users
+    //   }
+    // });
+  } catch (err) {
+    next(err);
+  }
+}
+
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé' });
+    }
+    res.json({ message: 'Utilisateur supprimé' });
+  } catch (err) {
+    next(err);
+  }
+}
+
+exports.updateUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé' });
+    }
+
+    // Mise à jour des champs
+    user.username = req.body.username ?? user.username;
+    user.email = req.body.email ?? user.email;
+    user.role = req.body.role ?? user.role;
+
+    if (req.body.password && req.body.password.trim() !== '') {
+      user.password = req.body.password;
+    }
+    const updatedUser = await user.save();
+    
+    // Ne pas renvoyer le mot de passe
+    const userResponse = updatedUser.toObject();
+    delete userResponse.password;
+    delete userResponse.refreshToken;
+    delete userResponse.passwordResetToken;
+    delete userResponse.passwordResetExpires;
+    
+    res.json(userResponse);
+  } catch (err) {
+    next(err);
+  }
+}

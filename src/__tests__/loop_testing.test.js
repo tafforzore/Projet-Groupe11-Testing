@@ -14,7 +14,7 @@ describe('Loop testing - calculateTotal', () => {
   });
   
   test('Limite haute (stress test)', () => {
-    const prices = Array(1000).fill(1);
-    expect(calculateTotal(prices)).toBe(1000);
+    const prices = Array(1000).fill(5);
+    expect(calculateTotal(prices)).toBe(5000);
   });
 });

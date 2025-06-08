@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propelize - Gestion des Véhicules</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles-vehicle.css">
+ 
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <a href="/vehicules" class="active">Véhicules</a>
+        <a href="/users">Utilisateurs</a>
+      </div>
+      <button id="logoutBtn">Déconnexion</button>
+    </nav>
+  </header>
+  
+  <main>
+    <div class="header-actions">
+      <h1>Gestion des véhicules</h1>
+      <button id="addVehicleBtn" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Ajouter un véhicule
+      </button>
+    </div>
+    
+    <div class="search-filter">
+      <div>
+        <input type="text" id="searchInput" placeholder="Rechercher...">
+      </div>
+      <div>
+        <select id="typeFilter">
+          <option value="">Tous les types</option>
+          <option value="car">Voiture</option>
+          <option value="van">Camionnette</option>
+        </select>
+      </div>
+      <div>
+        <select id="availabilityFilter">
+          <option value="">Tous</option>
+          <option value="true">Disponible</option>
+          <option value="false">Non disponible</option>
+        </select>
+      </div>
+      <div>
+        <input type="number" id="maxPriceFilter" placeholder="Prix max/jour">
+      </div>
+    </div>
+    
+    <div class="vehicle-list" id="vehicleList">
+      <!-- Véhicules chargés dynamiquement -->
+    </div>
+  </main>
+  
+  <!-- Modal pour ajouter/modifier un véhicule -->
+  <div class="modal" id="vehicleModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Ajouter un véhicule</h2>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="vehicleForm">
+          <input type="hidden" id="vehicleId">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="make">Marque *</label>
+              <input type="text" id="make" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="model">Modèle *</label>
+              <input type="text" id="model" class="form-control" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="year">Année *</label>
+              <input type="number" id="year" class="form-control" min="1900" max="2025" required>
+            </div>
+            <div class="form-group">
+              <label for="type">Type *</label>
+              <select id="type" class="form-control" required>
+                <option value="">Sélectionner un type</option>
+                <option value="car">Voiture</option>
+                <option value="van">Camionnette</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pricePerDay">Prix par jour (FCFA) *</label>
+              <input type="number" id="pricePerDay" class="form-control" min="0" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label for="mileage">Kilométrage</label>
+              <input type="number" id="mileage" class="form-control" min="0">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="registrationNumber">Numéro d'immatriculation *</label>
+              <input type="text" id="registrationNumber" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="location">Localisation *</label>
+              <input type="text" id="location" class="form-control" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="lastServiceDate">Date du dernier entretien</label>
+            <input type="date" id="lastServiceDate" class="form-control">
+          </div>
+          
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" id="isAvailable" class="form-check-input">
+              <label for="isAvailable">Disponible</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Équipements</label>
+            <div class="features-container" id="featuresContainer">
+              <!-- Les équipements seront ajoutés ici dynamiquement -->
+            </div>
+            <div class="feature-input">
+              <input type="text" id="newFeature" class="form-control" placeholder="Ajouter un équipement">
+              <button type="button" id="addFeatureBtn" class="btn btn-primary">Ajouter</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelBtn" class="btn">Annuler</button>
+        <button id="saveVehicleBtn" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de confirmation de suppression -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Confirmation</h2>
+        <button class="modal-close" id="closeConfirmModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage">Êtes-vous sûr de vouloir supprimer ce véhicule ?</p>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelConfirmBtn" class="btn">Annuler</button>
+        <button id="confirmBtn" class="btn btn-danger">Confirmer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/vehicles.js" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Propelize - Inscription</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Style minimal si styles.css n'existe pas */
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h1>Créer un compte</h1>
+    <form id="registerForm" method="POST" action="/register">
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Adresse Email</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+
+      <div class="form-group">
+        <label for="role">Rôle</label>
+        <select id="role" name="role" required>
+          <option value="">-- Choisir un rôle --</option>
+          <option value="admin">Admin</option>
+          <option value="user">Utilisateur</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn">S'inscrire</button>
+    </form>
+
+    <div id="message" class="message"></div>
+  </div>
+
+  <script src="/js/register.js"></script>
+</body>
+</html>

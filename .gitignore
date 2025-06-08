@@ -36,3 +36,9 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

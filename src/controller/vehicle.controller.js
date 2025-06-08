@@ -3,12 +3,9 @@ const Vehicle = require('../models/vehicle.model');
 
 // Get all vehicles
 exports.getAllVehicles = async (req, res) => {
-  try {
     const vehicles = await Vehicle.find();
     res.status(200).json(vehicles);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+
 };
 
 // Get vehicle by ID
