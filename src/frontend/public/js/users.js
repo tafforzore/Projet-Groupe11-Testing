@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => {
         if (response.status === 401) {
             alert('Session expirée. Veuillez vous reconnecter.');      
-            window.location.href = '/login';
+            // window.location.href = '/login';
             return;
         }
         return response.json()
@@ -92,10 +92,10 @@ document.addEventListener('DOMContentLoaded', function() {
         <td>
           <div class="user-actions">
             <button class="btn btn-primary edit-btn" data-id="${user._id}">
-              <i class="fas fa-edit"></i>
+              <i class="fas fa-edit"></i>Modifier
             </button>
             <button class="btn btn-danger delete-btn" data-id="${user._id}">
-              <i class="fas fa-trash"></i>
+              <i class="fas fa-trash"></i>Supprimer
             </button>
           </div>
         </td>
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })
     .then(() => {
-      window.location.href = '/login';
+    //   window.location.href = '/login';
     })
     .catch(error => {
       console.error('Erreur lors de la déconnexion:', error);

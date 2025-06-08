@@ -53,14 +53,14 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/vehicles', {
         method: 'GET',
         headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`  
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`  
         }
     })
     .then(response => {
         if (response.status === 401) {
             alert('Session expirée. Veuillez vous reconnecter.');      
-            window.location.href = '/login';
+            // window.location.href = '/login';
             return;
         }
         if (!response.ok) {
