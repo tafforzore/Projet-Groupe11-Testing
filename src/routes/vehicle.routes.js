@@ -213,6 +213,6 @@ router.get('/max-price/:maxPrice', authMiddleware.protect, vehicleController.get
  *                 database:
  *                   type: string
  */
-router.get('/health', authMiddleware.protect, vehicleController.getHealthStatus);
+router.get('/health', vehicleController.getHealthStatus);
 
 module.exports = router;

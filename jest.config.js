@@ -8,6 +8,7 @@ module.exports = {
     '!src/models/*.js',
     '!src/tests/**'
   ],
+  testMatch: ['**/src/__tests__/**/*.test.js'],
   setupFilesAfterEnv: ['./jest.setup.js'],
   coverageThreshold: {
     global: {
@@ -16,5 +17,11 @@ module.exports = {
       lines: 50,
       statements: 50
     }
-  }
+  },
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/tests/',
+    '/e2e/',
+    '\\.spec\\.ts$', // ignore les fichiers Playwright par convention
+  ],
 };

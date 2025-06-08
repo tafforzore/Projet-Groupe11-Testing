@@ -21,13 +21,13 @@ exports.getVehicleById = async (req, res) => {
   }
 };
 
-// Create a new vehicle
 exports.createVehicle = async (req, res) => {
   try {
     const newVehicle = new Vehicle(req.body);
     await newVehicle.save();
     res.status(201).json(newVehicle);
   } catch (error) {
+    console.log(error.message)
     res.status(400).json({ message: error.message });
   }
 };
@@ -40,9 +40,9 @@ exports.updateVehicle = async (req, res) => {
       req.body,
       { new: true, runValidators: true }
     );
-    if (!updatedVehicle) {
-      return res.status(404).json({ message: 'Véhicule non trouvé' });
-    }
+    // if (!updatedVehicle) {
+    //   return res.status(404).json({ message: 'Véhicule non trouvé' });
+    // }
     res.status(200).json(updatedVehicle);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -77,7 +77,7 @@ exports.getVehicleByRegistration = async (req, res) => {
 
 // Get all vehicles with rental price less than or equal to maxPrice
 exports.getVehiclesByMaxPrice = async (req, res) => {
-  try {
+
     const maxPrice = parseFloat(req.params.maxPrice);
     
     if (isNaN(maxPrice) || maxPrice < 0) {
@@ -93,17 +93,9 @@ exports.getVehiclesByMaxPrice = async (req, res) => {
     }
     
     res.status(200).json(vehicles);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+
 };
 
 exports.getHealthStatus = (req, res) => {
-  res.status(200).json({
-    status: 'UP',
-    timestamp: new Date().toISOString(),
-    service: 'Vehicle API',
-    version: '1.0.0',
-    database: 'Connected' // Vous pourriez ajouter un check de connexion DB plus tard
-  });
+  res.status(200).json();
 };
