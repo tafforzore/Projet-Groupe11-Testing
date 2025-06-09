@@ -55,6 +55,7 @@ jobs:
       run: npm run test --if-present
 
     - name: Run tests playwright
+      run: npx playwright install
       run: npx playwright test 
 
     - name: Build container
