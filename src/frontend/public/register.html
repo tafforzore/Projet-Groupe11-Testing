@@ -60,7 +60,7 @@ form.addEventListener('submit', async (e) => {
 
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
-
+  console.log('Données du formulaire:', data);
   try {
     const response = await fetch('auth/register', {
       method: 'POST',
@@ -68,34 +68,25 @@ form.addEventListener('submit', async (e) => {
       body: JSON.stringify(data)
     });
 
-    if (res.status === 401) {
-        message.style.color = 'red';
-        message.textContent = 'Identifiants incorrects';
-        return;
-    }
-
-    if (!res.ok) {
-        message.style.color = 'red';
-        message.textContent = result.message || 'Erreur lors de la connexion';
-        return;
-    }
-
+   
     const result = await response.json();
-
-    if (response.ok) {
+    console.log('Résultat de l’inscription:', result);
+    if (response.ok || response.created) {
       messageDiv.style.color = 'green';
       messageDiv.textContent = 'Inscription réussie !';
-      setTimeout(() => window.location.href = '/vehicules', 1000);
-    } else {
-      messageDiv.style.color = 'red';
-      messageDiv.textContent = result.message || 'Erreur lors de l’inscription';
-
       const { accessToken, refreshToken, expiresIn } = result.tokens;
       const { user } = result.data;
 
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('expiresIn', expiresIn);
+      
+      setTimeout(() => window.location.href = '/vehicules', 1000);
+    } else {
+      messageDiv.style.color = 'red';
+      messageDiv.textContent = result.message || 'Erreur lors de l’inscription';
+
+      
 
       // Stocker les infos utilisateur si besoin
       localStorage.setItem('user', JSON.stringify(user));
@@ -103,6 +94,7 @@ form.addEventListener('submit', async (e) => {
 
     }
   } catch (err) {
+    console.error('Erreur lors de l’inscription:', err);
     messageDiv.textContent = 'erreur de connexion, veuillez réessayer';
   }
 });

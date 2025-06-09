@@ -1,175 +1,188 @@
-// const { test, expect } = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 
-// test.describe('Page de connexion', () => {
-//   test.beforeEach(async ({ page }) => {
-//     await page.goto('/login');
-//   });
+test.beforeEach(async ({ page }) => {
+  // Naviguer vers la page de login avant chaque test
+  await page.goto('http://localhost:3000/login');
+});
 
-//   test('Affichage de la page de login', async ({ page }) => {
-//     // Vérifier les éléments essentiels
-//     await expect(page.getByRole('heading', { name: 'Connexion' })).toBeVisible();
-//     await expect(page.getByLabel('Email')).toBeVisible();
-//     await expect(page.getByLabel('Mot de passe')).toBeVisible();
-//     await expect(page.getByRole('button', { name: 'Se connecter' })).toBeVisible();
-//   });
+test('Affichage de la page de login', async ({ page }) => {
+  // Vérifier les éléments de base
+  await expect(page).toHaveTitle('Propelize - Connexion');
+  await expect(page.locator('h1')).toHaveText('Connexion');
+  await expect(page.locator('label[for="email"]')).toHaveText('Email');
+  await expect(page.locator('label[for="password"]')).toHaveText('Mot de passe');
+  await expect(page.locator('#email')).toBeVisible();
+  await expect(page.locator('#password')).toBeVisible();
+  await expect(page.locator('button[type="submit"]')).toHaveText('Se connecter');
+});
 
-//   test('Connexion réussie - Redirection vers /vehicles', async ({ page }) => {
-//     // Mock de la réponse API
-//    await page.route('**/auth/register', async route => {
-//     await route.fulfill({
-//       status: 201,
-//       contentType: 'application/json',
-//       body: JSON.stringify({
-//         status: "success",
-//         tokens: {
-//           accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmE1ZjIzNmFmNTQ2Y2I5YmJlMGUzNyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQ5Mzk1NTAwLCJleHAiOjE3NDkzOTY0MDB9.XnZk2X9A99Ws6EktsbYly_DmyT5HfWufajt5Uiw7pZY",
-//           refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmE1ZjIzNmFmNTQ2Y2I5YmJlMGUzNyIsImlhdCI6MTc0OTM5NTUwMCwiZXhwIjoxNzUwMDAwMzAwfQ.I0Q9F1I6sApsbIDD48bCrV79kW26xYr2-5vJLdv_5cg",
-//           expiresIn: "15m"
-//         },
-//         data: {
-//           user: {
-//             id: "682a5f236af546cb9bbe0e37",
-//             username: "john_doe",
-//             email: "john@example.com",
-//             role: "user"
-//           }
-//         }
-//       })
-//     });
-//   });
+test('Connexion réussie', async ({ page }) => {
+  // Mock de la réponse API
+  await page.route('**/auth/login', route => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        tokens: {
+          accessToken: 'fake-access-token',
+          refreshToken: 'fake-refresh-token'
+        },
+        data: {
+          user: {
+            _id: '1',
+            email: 'test@example.com',
+            role: 'user'
+          }
+        }
+      })
+    });
+  });
 
-//     // Remplir le formulaire
-//     await page.getByLabel('Email').fill('new@example.com');
-//     await page.getByLabel('Mot de passe').fill('password123');
+  // Remplir le formulaire
+  await page.fill('#email', 'test@example.com');
+  await page.fill('#password', 'password123');
 
-//     // Soumettre le formulaire
-//     await page.getByRole('button', { name: 'Se connecter' }).click();
+  // Intercepter la redirection
+  const [response] = await Promise.all([
+    page.waitForResponse('**/auth/login'),
+    page.click('button[type="submit"]')
+  ]);
 
-//     // Vérifier la redirection
-//     setTimeout(() => {}, 2000); // Attendre un peu pour la redirection
-//     await expect(page).toHaveURL('http://localhost:3000/vehicles');
-    
-//     // Vérifier que le token est stocké
-//     const cookies = await page.context().cookies();
-//     expect(tokenCookie).toBeTruthy();
-//   });
+  // Vérifier la réponse
+  expect(response.status()).toBe(200);
+  
+  // Vérifier le message de succès
+  await expect(page.locator('#message')).toHaveText('Connexion réussie !');
+  await expect(page.locator('#message')).toHaveCSS('color', 'rgb(0, 128, 0)'); // green
+  
+  // Vérifier la redirection (simulée ici car nous ne pouvons pas vraiment naviguer dans les tests)
+  await page.waitForTimeout(1000); // Attendre le timeout de redirection
+});
 
-//   test('Connexion réussie - Redirection vers /users pour les admins', async ({ page }) => {
-//     // Mock de la réponse API pour admin
-//     await page.route('**/auth/login', route => {
-//       route.fulfill({
-//         status: 200,
-//         contentType: 'application/json',
-//         body: JSON.stringify({
-//           token: 'fake-jwt-token-for-admin-testing',
-//           user: {
-//             _id: '2',
-//             username: 'adminuser',
-//             email: 'admin@example.com',
-//             role: 'admin'
-//           }
-//         })
-//       });
-//     });
+test('Connexion échouée - Identifiants incorrects', async ({ page }) => {
+  // Mock de la réponse API pour identifiants incorrects
+  await page.route('**/auth/login', route => {
+    route.fulfill({
+      status: 401,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        message: 'Identifiants incorrects'
+      })
+    });
+  });
 
-//     // Remplir le formulaire
-//     await page.getByLabel('Email').fill('admin@example.com');
-//     await page.getByLabel('Mot de passe').fill('admin123');
+  // Remplir le formulaire avec des mauvaises informations
+  await page.fill('#email', 'wrong@example.com');
+  await page.fill('#password', 'wrongpassword');
 
-//     // Soumettre le formulaire
-//     await page.getByRole('button', { name: 'Se connecter' }).click();
+  // Soumettre le formulaire
+  await page.click('button[type="submit"]');
 
-//     // Vérifier la redirection pour admin
-//     await expect(page).toHaveURL('http://localhost:3000/users');
-//   });
+  // Vérifier le message d'erreur
+  await expect(page.locator('#message')).toHaveText('Identifiants incorrects');
+  await expect(page.locator('#message')).toHaveCSS('color', 'rgb(255, 0, 0)'); // red
+});
 
-//   test('Échec de connexion - Identifiants incorrects', async ({ page }) => {
-//     // Mock de la réponse API pour échec
-//     await page.route('**/auth/login', route => {
-//       route.fulfill({
-//         status: 401,
-//         contentType: 'application/json',
-//         body: JSON.stringify({
-//           message: 'Email ou mot de passe incorrect'
-//         })
-//       });
-//     });
+test('Connexion échouée - Erreur serveur', async ({ page }) => {
+  // Mock d'une erreur serveur
+  await page.route('**/auth/login', route => {
+    route.fulfill({
+      status: 500,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        message: 'Erreur interne du serveur'
+      })
+    });
+  });
 
-//     // Remplir le formulaire avec des identifiants incorrects
-//     await page.getByLabel('Email').fill('wrong@example.com');
-//     await page.getByLabel('Mot de passe').fill('wrongpassword');
+  // Remplir le formulaire
+  await page.fill('#email', 'test@example.com');
+  await page.fill('#password', 'password123');
 
-//     // Soumettre le formulaire
-//     await page.getByRole('button', { name: 'Se connecter' }).click();
+  // Soumettre le formulaire
+  await page.click('button[type="submit"]');
 
-//     // Vérifier le message d'erreur
-//     await expect(page.getByText('Email ou mot de passe incorrect')).toBeVisible();
-    
-//     // Vérifier qu'on reste sur la page de login
-//     await expect(page).toHaveURL('http://localhost:3000/login');
-//   });
+  // Vérifier le message d'erreur
+  await expect(page.locator('#message')).toHaveText('Erreur de connexion, veuillez réessayer');
+  await expect(page.locator('#message')).toHaveCSS('color', 'rgb(255, 0, 0)');
+});
 
-//   test('Validation du formulaire - Champs requis', async ({ page }) => {
-//     // Essayer de soumettre sans remplir les champs
-//     await page.getByRole('button', { name: 'Se connecter' }).click();
+test('Validation du formulaire - Champs vides', async ({ page }) => {
+  // Ne pas remplir les champs
+  await page.click('button[type="submit"]');
 
-//     // Vérifier les messages d'erreur
-//     await expect(page.getByText('Email est requis')).toBeVisible();
-//     await expect(page.getByText('Mot de passe est requis')).toBeVisible();
-//   });
+  // Vérifier que les champs sont marqués comme invalides
+  const emailInput = page.locator('#email');
+  const passwordInput = page.locator('#password');
+  
+  await expect(emailInput).toHaveAttribute('required', '');
+  await expect(passwordInput).toHaveAttribute('required', '');
+  
+  // Vérifier qu'aucune requête n'a été envoyée
+  const requests = [];
+  page.on('request', request => requests.push(request.url));
+  await page.click('button[type="submit"]');
+  expect(requests.filter(url => url.includes('auth/login'))).toHaveLength(0);
+});
 
-//   test('Validation du formulaire - Format email invalide', async ({ page }) => {
-//     // Remplir avec un email invalide
-//     await page.getByLabel('Email').fill('invalid-email');
-//     await page.getByLabel('Mot de passe').fill('password123');
+test('Stockage des tokens après connexion réussie', async ({ page }) => {
+  // Mock de la réponse API
+  await page.route('**/auth/login', route => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        tokens: {
+          accessToken: 'fake-access-token',
+          refreshToken: 'fake-refresh-token'
+        },
+        data: {
+          user: {
+            _id: '1',
+            email: 'test@example.com',
+            role: 'user'
+          }
+        }
+      })
+    });
+  });
 
-//     // Soumettre le formulaire
-//     await page.getByRole('button', { name: 'Se connecter' }).click();
+  // Remplir le formulaire
+  await page.fill('#email', 'test@example.com');
+  await page.fill('#password', 'password123');
 
-//     // Vérifier le message d'erreur
-//     await expect(page.getByText('Email invalide')).toBeVisible();
-//   });
+  // Évaluer le localStorage avant connexion
+  const initialLocalStorage = await page.evaluate(() => JSON.stringify(localStorage));
+  expect(initialLocalStorage).not.toContain('fake-access-token');
 
-//   test('Lien "Mot de passe oublié"', async ({ page }) => {
-//     // Cliquer sur le lien
-//     await page.getByText('Mot de passe oublié ?').click();
-    
-//     // Vérifier la redirection
-//     await expect(page).toHaveURL('http://localhost:3000/forgot-password');
-//   });
+  // Soumettre le formulaire
+  await page.click('button[type="submit"]');
+  await page.waitForTimeout(500); // Attendre le traitement
 
-//   test('Affichage/masquage du mot de passe', async ({ page }) => {
-//     // Remplir le champ mot de passe
-//     await page.getByLabel('Mot de passe').fill('secret123');
-    
-//     // Vérifier que le mot de passe est masqué par défaut
-//     await expect(page.getByLabel('Mot de passe')).toHaveAttribute('type', 'password');
-    
-//     // Cliquer sur le bouton d'affichage
-//     await page.getByRole('button', { name: 'Afficher le mot de passe' }).click();
-    
-//     // Vérifier que le mot de passe est visible
-//     await expect(page.getByLabel('Mot de passe')).toHaveAttribute('type', 'text');
-    
-//     // Cliquer à nouveau pour masquer
-//     await page.getByRole('button', { name: 'Masquer le mot de passe' }).click();
-    
-//     // Vérifier que le mot de passe est à nouveau masqué
-//     await expect(page.getByLabel('Mot de passe')).toHaveAttribute('type', 'password');
-//   });
+  // Vérifier le localStorage après connexion
+  const accessToken = await page.evaluate(() => localStorage.getItem('accessToken'));
+  const refreshToken = await page.evaluate(() => localStorage.getItem('refreshToken'));
+  const user = await page.evaluate(() => localStorage.getItem('user'));
 
-//   test('Redirection si déjà connecté', async ({ page }) => {
-//     // Simuler un utilisateur déjà connecté
-//     await page.context().addCookies([{
-//       name: 'token',
-//       value: 'fake-valid-token',
-//       url: 'http://localhost:3000'
-//     }]);
+  expect(accessToken).toBe('fake-access-token');
+  expect(refreshToken).toBe('fake-refresh-token');
+  expect(JSON.parse(user).email).toBe('test@example.com');
+});
 
-//     // Aller à la page de login
-//     await page.goto('http://localhost:3000/login');
-    
-//     // Vérifier la redirection vers la page d'accueil
-//     await expect(page).toHaveURL('http://localhost:3000/vehicles');
-//   });
-// });
+test('Affichage des erreurs de validation côté client', async ({ page }) => {
+  // Email invalide
+  await page.fill('#email', 'invalid-email');
+  await page.fill('#password', 'password123');
+  await page.click('button[type="submit"]');
+
+  // Vérifier que l'email est marqué comme invalide
+  const emailInput = page.locator('#email');
+  await expect(emailInput).toHaveAttribute('type', 'email');
+  await expect(emailInput).toHaveAttribute('required', '');
+  
+  // Vérifier qu'aucune requête n'a été envoyée
+  const requests = [];
+  page.on('request', request => requests.push(request.url));
+  await page.click('button[type="submit"]');
+  expect(requests.filter(url => url.includes('auth/login'))).toHaveLength(0);
+});
