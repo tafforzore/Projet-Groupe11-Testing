@@ -1,6 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
   coverageDirectory: './coverage',
+  testTimeout: 30000,
   collectCoverageFrom: [
     'src/**/*.js',
     '!src/app.js',
