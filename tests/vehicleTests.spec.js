@@ -264,8 +264,7 @@ test('Validation du formulaire véhicule', async ({ page }) => {
       expect(dialog.message()).toBe('Veuillez remplir tous les champs obligatoires');
     await dialog.dismiss();
     });
-//   await expect(page.getByText('Veuillez remplir tous les champs obligatoires')).toBeVisible();
-  
+  // Vérifier que les champs obligatoires sont marqués  
   // Remplir avec des données invalides
   await page.getByLabel('Année *').fill('1899');
   await page.getByLabel('Prix par jour (FCFA) *').fill('-10');
