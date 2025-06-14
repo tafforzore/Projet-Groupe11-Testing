@@ -1,7 +1,7 @@
 # Projet Groupe 11 - API Express
 
 ## Description
-Ce projet est une API développée avec Express.js. Elle permet de gérer des fonctionnalités spécifiques définies par le groupe 11.
+Ce projet est une API développée avec Express.js. Elle permet de gérer des fonctionnalités spécifiques définies par le groupe de TP GL 11.
 
 ## Prérequis
 Avant de lancer l'API, assurez-vous d'avoir les éléments suivants installés sur votre machine :
