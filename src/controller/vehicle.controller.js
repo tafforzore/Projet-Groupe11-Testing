@@ -84,7 +84,7 @@ exports.getVehiclesByMaxPrice = async (req, res) => {
       return res.status(400).json({ message: 'Le prix maximum doit être un nombre positif' });
     }
 
-    const vehicles = await Vehicle.find({ rentalPrice: { $lte: maxPrice } });
+    const vehicles = await Vehicle.find({ pricePerDay: { $lte: maxPrice } });
     
     if (vehicles.length === 0) {
       return res.status(404).json({ 
