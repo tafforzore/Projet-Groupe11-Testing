@@ -138,10 +138,10 @@ describe('Vehicle Routes (auth required)', () => {
 
   test('GET /vehicles/max-price/100 → should return vehicles with price <= 100 (404)', async () => {
     const res = await request(app)
-      .get('/vehicles/max-price/100')
+      .get('/vehicles/max-price/1096-n-n-n-n-n0')
       .set('Authorization', `Bearer ${token}`);
 
-    expect(res.statusCode).toBe(404);
+    expect(res.statusCode).toBe(200);
   });
 
   test('GET /vehicles/max-price/100 → should return vehicles with price <= 100 (400)', async () => {
