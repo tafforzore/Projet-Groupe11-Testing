@@ -1,10 +1,208 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Page minimale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propelize - Gestion de Véhicules</title>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2ecc71;
+      --dark-color: #2c3e50;
+      --light-color: #ecf0f1;
+      --danger-color: #e74c3c;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--secondary-color);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin-left: 1.5rem;
+    }
+    
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    nav ul li a:hover {
+      color: var(--secondary-color);
+    }
+    
+    .hero {
+      background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+      color: white;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background-color: #27ae60;
+    }
+    
+    .features {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .features h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2.2rem;
+      color: var(--dark-color);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .feature-card h3 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+    }
+    
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      nav ul {
+        margin-top: 1rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Bonjour, monde !</h1>
+  <header>
+    <div class="logo">Propelize</div>
+    <nav>
+      <ul>
+        <li><a href="/login">Connexion</a></li>
+        <li><a href="/register">Inscription</a></li>
+        <li><a href="/about">À propos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Gestion de Véhicules Simplifiée</h1>
+    <p>Propelize est une solution complète pour gérer votre parc automobile avec efficacité et simplicité. Suivi, maintenance et gestion des utilisateurs en un seul endroit.</p>
+    <a href="/register" class="btn">Commencer maintenant</a>
+  </section>
+
+  <section class="features">
+    <h2>Nos Fonctionnalités</h2>
+    <div class="features-grid">
+
+      
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>Gestion des Utilisateurs</h3>
+        <p>Contrôlez les accès avec des rôles personnalisés pour chaque membre de votre équipe.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🚗</div>
+        <h3>Gestion des Véhicules</h3>
+        <p>Ajouter modifier , mettre a jour ensemble de vos vehicules.</p>
+    </div>
+  
+  </section>
+
+  <footer>
+    <p>&copy; 2023 Propelize - Tous droits réservés</p>
+    <p>Projet Groupe 11 - Système de gestion de véhicules</p>
+  </footer>
 </body>
-</html> -->
+</html>
