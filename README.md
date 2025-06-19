@@ -77,7 +77,14 @@ Les contributions sont les bienvenues ! Veuillez suivre les étapes suivantes :
     ```bash
     git push origin feature/nom-de-la-fonctionnalite
     ```
-5. Créez une Pull Request.
+6. lancez les test integrations et unitaire  :
+    ```bash
+    npm run test
+    ```
+7. lancez les test interfaces  :
+    ```bash
+    npx playwright test --headed
+    ```
 
 ## Licence
 Ce projet est sous licence MIT. Consultez le fichier `LICENSE` pour plus d'informations.
