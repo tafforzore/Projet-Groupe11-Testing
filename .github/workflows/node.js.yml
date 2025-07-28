@@ -48,6 +48,17 @@ jobs:
     - run: npm install --save-dev supertest
     - run: npm run build --if-present
 
+    - name: Create .env file
+      run: |
+        cat <<EOF > .env
+        MONGO_URL=${{ secrets.MONGO_URL }}
+        JWT_SECRET=${{ secrets.JWT_SECRET }}
+        JWT_EXPIRES_IN=15m
+        JWT_REFRESH_SECRET=${{ secrets.JWT_REFRESH_SECRET }}
+        JWT_REFRESH_EXPIRES_IN=7d
+        baseURL=http://localhost:3000
+        EOF
+
     - name: Run tests Jest
       env:
         MONGO_URL: ${{ secrets.MONGO_URL_lOCAL }}
