@@ -51,12 +51,6 @@ jobs:
     - name: Run tests Jest
       env:
         MONGO_URL: ${{ secrets.MONGO_URL_lOCAL }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
-        JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
-        JWT_REFRESH_EXPIRES_IN: ${{ secrets.JWT_REFRESH_EXPIRES_IN }}
-        MONGO_URL: ${{ secrets.MONGO_URL }}
-        baseURL: ${{ secrets.baseURL }}
         NODE_ENV: test
         MONGOMS_DISABLE_DOWNLOAD: true
       run: npm run test --if-present

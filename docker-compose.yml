@@ -8,8 +8,15 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URL=mongodb+srv://nzomutchawildfrid:Severin123@cluster0.0gr8udz.mongodb.net/
+      - MONGO_URL=${MONGO_URL}
       - NODE_ENV=development
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - JWT_REFRESH_EXPIRES_IN=${JWT_REFRESH_EXPIRES_IN}
+      - MONGO_URL_LOCAL=${MONGO_URL_LOCAL}
+      - baseURL=${baseURL}
+
     volumes:
       - .:/app
       - /app/node_modules
