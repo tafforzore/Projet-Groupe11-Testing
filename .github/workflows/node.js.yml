@@ -56,7 +56,6 @@ jobs:
         JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
         JWT_REFRESH_EXPIRES_IN: ${{ secrets.JWT_REFRESH_EXPIRES_IN }}
         MONGO_URL: ${{ secrets.MONGO_URL }}
-        MONGO_URL_LOCAL: ${{ secrets.MONGO_URL_LOCAL }}
         baseURL: ${{ secrets.baseURL }}
         NODE_ENV: test
         MONGOMS_DISABLE_DOWNLOAD: true
