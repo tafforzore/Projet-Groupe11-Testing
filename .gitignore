@@ -8,7 +8,7 @@ yarn-error.log*
 logs/
 *.log
 *.log.*
-
+.env
 # Build output
 dist/
 build/
