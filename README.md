@@ -113,8 +113,9 @@ Ce projet utilise des variables d’environnement pour la configuration de la ba
    JWT_REFRESH_EXPIRES_IN=7d
 
    # 🌐 Connexion à MongoDB (MongoDB Atlas ou local)
+
    # Exemple local :
-   # MONGO_URL=mongodb://admin:password@localhost:27017/test?authSource=admin
+   MONGO_URL_LOCAL=mongodb://admin:password@localhost:27017/test?authSource=admin
 
    # Exemple cloud (MongoDB Atlas) :
    MONGO_URL=mongodb+srv://<utilisateur>:<mot_de_passe>@cluster0.0gr8udz.mongodb.net/<nom_de_la_base>
@@ -122,6 +123,7 @@ Ce projet utilise des variables d’environnement pour la configuration de la ba
    # 🌍 URL de base de l’application pour les appels API
    baseURL=http://localhost:3000
 
+    ## MONGO_URL_LOCAL ET MONGO_URL sont a mettre dans env et peuvent etre identique
 ---
 
 ## 📌 À propos des variables
