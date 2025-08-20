@@ -122,6 +122,7 @@ Ce projet utilise des variables d’environnement pour la configuration de la ba
 
    # 🌍 URL de base de l’application pour les appels API
    baseURL=http://localhost:3000
+   swaggers: http://localhost:3000/api-docs/
 
     ## MONGO_URL_LOCAL ET MONGO_URL sont a mettre dans env et peuvent etre identique
 ---
